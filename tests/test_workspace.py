@@ -56,6 +56,27 @@ class WorkspaceTests(unittest.TestCase):
                 (ROOT / "docs/onboarding.md").read_text(),
             )
 
+    def test_initialized_release_config_and_manifest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            workspace = Path(tmp) / "private"
+            initialize(workspace)
+            config = json.loads((workspace / "agent-config.json").read_text())
+            version = (ROOT / "VERSION").read_text().strip()
+            self.assertRegex(version, r"^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$")
+            self.assertEqual(config["installed_version"], version)
+            self.assertIn(f"## {version}\n", (ROOT / "CHANGELOG.md").read_text())
+            template = json.loads((ROOT / "templates/agent-config.json").read_text())
+            self.assertIsNone(template["installed_version"])
+            self.assertEqual(config["updates"], template["updates"])
+            self.assertEqual(config["updates"]["check_policy"], "daily")
+            self.assertFalse(config["updates"]["auto_update"])
+            manifest = (workspace / "FRAMEWORK.txt").read_text().splitlines()
+            self.assertEqual(len(manifest), len(set(manifest)))
+            for name in manifest:
+                self.assertNotIn(name, {"tasks.json", "agent-config.json"})
+                self.assertFalse(name.startswith(("planning/", "templates/", ".github/")))
+                self.assertEqual((workspace / name).read_bytes(), (ROOT / name).read_bytes())
+
     def test_empty_init_and_concurrent_writers(self):
         with tempfile.TemporaryDirectory() as tmp:
             parent = Path(tmp)

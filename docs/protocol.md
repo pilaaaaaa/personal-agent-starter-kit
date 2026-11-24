@@ -1,6 +1,6 @@
 # Shared state protocol
 
-Use a private repo with `tasks.json`, `planning/`, `methods/` and `AGENTS.md`. The chosen GitHub branch is the source of truth when connected. A disconnected local Git workspace can run the same workflow. Never push private state to the kit repository.
+Use a private repo with `tasks.json`, `planning/`, `methods/` and `AGENTS.md`. The chosen GitHub branch is the source of truth when connected. A disconnected local Git workspace can run the same workflow. Before writing personal knowledge to GitHub, verify the exact target belongs to the user and is Private. Never push private state to the kit repository. See [the update protocol](../UPDATE.md) for framework upgrades and `agent-config.json`.
 
 ## Snapshot and compare-and-swap
 

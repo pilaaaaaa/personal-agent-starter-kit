@@ -12,9 +12,9 @@ Ari tells the Agent “Add a task to print exhibit labels on Friday. The print d
 
 ## First conversation
 
-**Agent** · I can help you make better decisions and spend less time managing your day. You can tailor how I work and switch Agents whenever you like. When you choose to save personal knowledge, it goes in your own private GitHub repository. Would you like to start in chat, connect reminders, connect a calendar, or connect both?
+**Agent** · I can help you make better decisions and spend less time managing your day. You can tailor how I work and switch Agents whenever you like. When you choose to save personal knowledge, it goes in your own private GitHub repository. What would you like to get done or decide today?
 
-**Ari** · Chat is fine. I've got 40 minutes to proofread a flyer and send it to the printer. The PDF export takes 10 minutes by itself.
+**Ari** · I've got 40 minutes to proofread a flyer and send it to the printer. The PDF export takes 10 minutes by itself.
 
 **Agent** · Spend up to 25 minutes proofreading. Start the export as soon as the final edits are in. Use those 10 minutes to draft the printer email and check its recipient. Keep the last five minutes to open the PDF and make sure it renders correctly before you send it. Want to see how I chose that order?
 

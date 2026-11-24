@@ -1,5 +1,7 @@
 # Personal Agent Starter Kit
 
+**Start in chat / 在对话中启动** · Copy this [SKILL.md launch link](https://raw.githubusercontent.com/pilaaaaaa/personal-agent-starter-kit/main/SKILL.md) into your usual AI chat. If the chat reads it without starting, add **“Start this agent”** or **「启动这个 Agent」**.
+
 Build a personal agent around the way you already work. Track commitments, plan around real constraints and refine your preferences in conversation. The kit gives capable agents a shared operating protocol, an empty private knowledge base and a library of editable decision methods.
 
 - **Better decisions, less friction.** Replan as constraints, commitments and information change.
@@ -24,11 +26,7 @@ The agent distinguishes deadlines, reminder times and reserved work blocks. It c
 
 ## Quick start
 
-Give your agent this project and say:
-
-> Read SKILL.md in this repository and help me set up a personal agent using my available tools and workflow. Start with a real task or decision, and ask about preferences as they become relevant. Before saving any personal knowledge on GitHub, verify that the destination is my own private repository. Let me choose which integrations to enable and what actions to authorize.
-
-Choose conversation only, reminders, calendar, or both. Then tell the Agent something you actually want to plan, track or decide. It can start in conversation while a connection is pending and will verify that your GitHub repository is private before saving personal information. Share preferences as they become relevant.
+Paste the launch link into an ordinary AI conversation and bring something you want to plan, track or decide. A chat that can read the link can start from there. If it cannot open URLs, attach the downloaded `SKILL.md` if uploads are supported. You can start in conversation without connecting GitHub, reminders or a calendar.
 
 <details>
 <summary>Manual setup for users who want a local workspace</summary>
@@ -60,9 +58,13 @@ Ask your agent to change the architecture, add or disable a method, choose a dif
 
 [Follow a fictional library project](examples/scenarios.md) from task creation and replanning through parallel execution, waiting follow-ups and changes to preferences and permissions.
 
+## Framework updates
+
+Installed workspaces check [VERSION](VERSION) on first daily use by default. Upgrades require your approval and preserve your private state and custom methods. See the [changelog](CHANGELOG.md) and [update guide](UPDATE.md) for the check, manual upgrade and rollback paths.
+
 ## 中文快速入门
 
-把本项目交给你常用的 Agent，说「请读取 SKILL.md，按我现有的工具和工作方式，帮我初始化自己的私人智能秘书」。选择只通过对话使用，或连接提醒、日历及两者，然后告诉 Agent 一件你现在想处理的事。连接待完成时也可以先在对话中获得建议。个人数据写入 GitHub 前，Agent 会先确认目标仓库为 Private。以后可以直接说「只在本周保留上午」「替换这个决策方法」或「发邮件前先问我」。
+把顶部链接粘贴到常用 AI 的普通对话框。若它只展示或总结链接，再说「启动这个 Agent」。如果平台打不开链接，可以在支持上传时附上下载的 `SKILL.md`。告诉 Agent 一件你现在想处理的事，之后再按需要启用私人 GitHub 存储、日历或提醒。
 
 ## Verify and license
 

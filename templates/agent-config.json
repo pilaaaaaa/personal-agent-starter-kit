@@ -1,0 +1,12 @@
+{
+  "upstream_repository": "https://github.com/pilaaaaaa/personal-agent-starter-kit",
+  "installed_version": null,
+  "updates": {
+    "check_policy": "daily",
+    "last_checked_at": null,
+    "last_attempt_at": null,
+    "ignored_versions": [],
+    "snoozed_until": {},
+    "auto_update": false
+  }
+}

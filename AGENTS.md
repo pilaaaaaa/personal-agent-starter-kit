@@ -2,6 +2,10 @@
 
 For any planning or state change, read tasks, preferences, permissions and context from the latest common revision. Read the routines, decision log and data-source registry when relevant. State the presumed zone or ask if the difference is material. Preserve unrelated state and validate before writing. See [the state protocol](docs/protocol.md) for concurrency and field rules.
 
+## Framework updates
+
+For an installed workspace, apply [the update protocol](UPDATE.md) on first daily use and when asked. Use the [public guide](https://raw.githubusercontent.com/pilaaaaaa/personal-agent-starter-kit/main/UPDATE.md) if the workspace predates that file. Finish the current task before surfacing routine update notices.
+
 ## Plan and replan
 
 - Identify the user's goal, hard limits, flexible preferences, obligations, predecessors, resources and windows. Check external sources only within the grant and verify their freshness. Distinguish actual deadlines, reminder triggers and reserved time.

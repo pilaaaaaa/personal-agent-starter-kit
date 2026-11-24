@@ -1,13 +1,10 @@
 """Initialize a new, empty knowledge base without copying personal or Git state."""
 import argparse
+import json
 from pathlib import Path
 import shutil
 
 ROOT = Path(__file__).resolve().parents[1]
-FILES = ("SKILL.md", "AGENTS.md", "LICENSE", ".gitignore", "docs/protocol.md",
-         "docs/onboarding.md",
-         "integrations/README.md", "examples/scenarios.md",
-         "scripts/validate_tasks.py")
 PLANNING = ("preferences.md", "context.md", "data_sources.md", "decision_log.md",
             "routines.md", "permissions.md")
 
@@ -15,9 +12,10 @@ PLANNING = ("preferences.md", "context.md", "data_sources.md", "decision_log.md"
 def initialize(target):
     if target.resolve() == ROOT or (target.exists() and any(target.iterdir())):
         raise ValueError("Choose a new or empty directory")
-    sources = {name: name for name in FILES}
-    sources.update({f"methods/{p.name}": f"methods/{p.name}"
-                    for p in (ROOT / "methods").glob("*.md")})
+    framework = (ROOT / "FRAMEWORK.txt").read_text(encoding="utf-8").splitlines()
+    sources = {name: name for name in framework}
+    config = json.loads((ROOT / "templates/agent-config.json").read_text(encoding="utf-8"))
+    config["installed_version"] = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
     sources["tasks.json"] = "templates/tasks.json"
     sources.update({f"planning/{name}": f"templates/planning/{name}" for name in PLANNING})
     for name, source in sources.items():
@@ -27,6 +25,9 @@ def initialize(target):
         output = target / name
         output.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(ROOT / source, output)
+    (target / "agent-config.json").write_text(
+        json.dumps(config, indent=2) + "\n", encoding="utf-8"
+    )
 
 
 if __name__ == "__main__":
