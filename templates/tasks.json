@@ -1,0 +1,9 @@
+{
+  "schema_version": 2,
+  "source": "personal-agent",
+  "sync_policy": {
+    "direction": "github_to_apple_reminders",
+    "delete_behavior": "never_delete_automatically"
+  },
+  "tasks": []
+}

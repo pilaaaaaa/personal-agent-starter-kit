@@ -1,0 +1,47 @@
+name: Personal Agent Google Calendar
+on:
+  push:
+    branches: [main]
+    paths: [tasks.json]
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Apply authorized calendar changes
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: personal-agent-google-calendar
+  cancel-in-progress: false
+jobs:
+  sync:
+    if: github.ref == 'refs/heads/main' && github.event.repository.private
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/heads/main
+          fetch-depth: 0
+          persist-credentials: false
+      - run: |
+          git rev-parse HEAD
+          python3 scripts/validate_tasks.py
+          python3 scripts/sync-google-calendar.py --validate-only
+      - env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          GOOGLE_CALENDAR_ID: ${{ secrets.GOOGLE_CALENDAR_ID }}
+          GOOGLE_CALENDAR_LIVE_ENABLED: ${{ vars.GOOGLE_CALENDAR_LIVE_ENABLED }}
+          PERSONAL_AGENT_ALLOW_CALENDAR_DELETIONS: ${{ vars.PERSONAL_AGENT_ALLOW_CALENDAR_DELETIONS }}
+          APPLY: ${{ inputs.apply }}
+          AUTO: ${{ vars.PERSONAL_AGENT_GOOGLE_AUTO_APPLY }}
+        run: |
+          set -euo pipefail
+          if [[ "$APPLY" == true || ( "$GITHUB_EVENT_NAME" == push && "$AUTO" == true ) ]]; then
+            python3 scripts/sync-google-calendar.py --apply
+          else
+            python3 scripts/sync-google-calendar.py
+          fi

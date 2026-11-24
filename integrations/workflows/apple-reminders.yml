@@ -1,0 +1,48 @@
+name: Personal Agent Apple Reminders
+on:
+  push:
+    branches: [main]
+    paths: [tasks.json]
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Apply authorized reminder changes
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: personal-agent-apple-reminders
+  cancel-in-progress: false
+jobs:
+  sync:
+    if: github.ref == 'refs/heads/main' && github.event.repository.private
+    runs-on: [self-hosted, macOS, personal-agent-reminders]
+    timeout-minutes: 10
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          APPLY: ${{ inputs.apply }}
+          AUTO: ${{ vars.PERSONAL_AGENT_REMINDERS_AUTO_APPLY }}
+          PERSONAL_AGENT_REMINDERS_LIVE_ENABLED: ${{ vars.PERSONAL_AGENT_REMINDERS_LIVE_ENABLED }}
+          PERSONAL_AGENT_ALLOW_REMINDER_DELETIONS: ${{ vars.PERSONAL_AGENT_ALLOW_REMINDER_DELETIONS }}
+        run: |
+          set -euo pipefail
+          umask 077
+          snapshot="$(mktemp)"
+          trap 'rm -f "$snapshot"' EXIT
+          api="$GITHUB_API_URL/repos/$GITHUB_REPOSITORY"
+          fetch() {
+            curl --fail --silent --show-error --retry 3 --max-time 30               --header "Authorization: Bearer $GH_TOKEN" --header "Accept: $1" "$2"
+          }
+          revision="$(fetch application/vnd.github+json "$api/git/ref/heads/main" | python3 -c 'import json,sys; print(json.load(sys.stdin)["object"]["sha"])')"
+          echo "Snapshot $revision"
+          expected="$(fetch application/vnd.github+json "$api/contents/sync-reminders.swift?ref=$revision" | python3 -c 'import json,sys; print(json.load(sys.stdin)["sha"])')"
+          blob="$(fetch application/vnd.github+json "$api/contents/tasks.json?ref=$revision" | python3 -c 'import json,sys; print(json.load(sys.stdin)["sha"])')"
+          fetch application/vnd.github.raw+json "$api/contents/tasks.json?ref=$revision" > "$snapshot"
+          unset GH_TOKEN
+          binary="$HOME/Library/Application Support/Personal Agent/sync-reminders"
+          [[ "$("$binary" --version)" == "$expected" ]]
+          mode=--dry-run
+          if [[ "$APPLY" == true || ( "$GITHUB_EVENT_NAME" == push && "$AUTO" == true ) ]]; then mode=--apply; fi
+          "$binary" "$mode" "$blob" "$snapshot"
