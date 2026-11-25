@@ -58,3 +58,6 @@ Run each fixture in a fresh chat or from the exact checkpoint it specifies. Use 
 | 豆包 | Unverified | Unverified | Unverified | Unverified |
 
 Offline fixtures use authored user messages, interpreted guard events and expected observations. They validate the protocol harness without calling model APIs. Missing URL access should lead to an attachment request where possible. Missing supporting files after entry retrieval should still allow chat onboarding.
+
+
+For the voluntary Star path, observe the optional link before the welcome question. Try a single turn reaching two milestones, explicit decline while a setup question is pending, and a fresh Agent resuming the same private branch. Verify that no Star action or lookup is attempted, no reply is required, and the pending setup question and stage survive. The installed Python evaluator test exercises deduplication, milestone priority and both terminal replies with synthetic state. Host phrasing and conditional persistence belong to the manual matrix.

@@ -11,6 +11,23 @@
 5. If a later unrelated task arrives, pause, preserve the question and help with the task. For S1/S2, a task that supplies the requested need or input advances the same workflow. Explicit pause works at any active stage. Explicit exit permits daily work with setup still incomplete. An explicit resume or relaunch restores the checkpoint, and a response that answers the pending question can also resume a pause. An exited checkpoint requires explicit restart or resume. No repeated setup reminders.
 6. S0–S2 require their stated outcomes. A refusal to provide a goal or real example can pause or exit the flow, with no invented completion. S3 and S4 permit an explicit decline or defer. Revisit them only when the user asks. Reopening completed setup reenters its state and returns directly to S5 when resolved. Retain all other evaluations. Reopening storage must not re-ask integration scope. If an unfinished optional step is reopened before initial completion, finish the already unresolved downstream steps afterwards.
 
+## Optional Star invitation
+
+Use `optional_star` in the [workflow](workflow.json) when this turn reaches one of these milestones:
+
+- `welcome` when S0 welcomes a new user.
+- `first_value` after S2 delivers the first real result, at the close of that response before ending the turn.
+- `core_configured` after the initial S3 resolves, including a choice to use chat or an explicit skip. Use wording that fits the actual outcome.
+- `onboarding_completed` on first entry into S5 from onboarding. A legacy adoption and reopened settings do not trigger offers.
+
+Invite briefly at welcome, except if the user's urgent task or existing feedback takes precedence. At later milestones include an invitation only when it fits the response. Use a short optional statement and the original public link, before any pending core question. Evaluate the milestones reached this turn only. When several coincide, use the workflow's priority and offer at most one. Never queue a skipped milestone. An update proposal, user distress or a request to stop promotional offers takes precedence. Treat the latter as a decline.
+
+Record only `{"feedback":"unanswered","offered":[]}` or its updated values, with `starred` and `declined` based on the user's explicit feedback. Process feedback before evaluating milestones. After either terminal response, suppress future offers. A later explicit correction can replace terminal feedback with the other terminal value. A Star-only reply can be acknowledged and cannot resolve or re-ask the pending onboarding question in that turn. A combined reply may still answer that question. Offering a link requires no GitHub grant. Never look up the user's Stars or perform a Star action.
+
+Keep this optional state in the conversation or a private `personal_data/onboarding_star.json` sidecar. A successful read confirming the file is absent means no recorded feedback or offers. Use authorized conditional writes against the verified branch. Keep Star feedback out of `agent-config.json`, since some calendar workflows watch that path. Merge non-overlapping milestone records on retry and keep verified terminal feedback unless the user explicitly corrects it. Save feedback in the same private workspace when the user chooses durable storage. For a portable handoff, include Star metadata separately only when requested. The onboarding checkpoint schema stays unchanged so old installations and rollbacks can still read it. A new Agent reads the sidecar from the same pinned revision as the checkpoint. The sidecar is personal state and stays outside the framework manifest. If the workspace confirms prior onboarding but Star metadata is inaccessible, skip reminders until the feedback is known.
+
+A Python-capable Agent can use [the optional evaluator](../scripts/onboarding_star.py). Pipe the previous sidecar object or JSON `null` to it. Pass one `--milestone` per eligible milestone in the current turn and `--feedback` only for an explicit response. The returned `invitation` is either null or a milestone and URL. Persist the returned state only within the authorization above, and only record an invitation if sending it. Browser-only and connector-only hosts apply the same rules from the workflow and this protocol.
+
 ## Record evaluations
 
 Use `active`, `paused`, `exited` and `completed` for overall status. The checkpoint holds only protocol metadata. Keep goal, task detail, routine, preference, connector configuration and grants in the authorized conversation or their usual private files. Never serialize question wording, user replies, workspace identifiers, provider IDs or credentials in this checkpoint.

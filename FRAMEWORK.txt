@@ -29,3 +29,4 @@ onboarding/interaction.md
 onboarding/state.schema.json
 onboarding/examples.md
 onboarding/learning.md
+scripts/onboarding_star.py

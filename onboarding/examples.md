@@ -4,9 +4,9 @@ This fictional session uses chat-only storage.
 
 > **User** · [Raw launch link](https://raw.githubusercontent.com/pilaaaaaa/personal-agent-starter-kit/main/SKILL.md)
 >
-> **Agent** · 我可以帮你安排任务、规划时间或做决定。今天你最想理顺哪件事？
+> **Agent** · 我可以帮你安排任务、规划时间或做决定。愿意的话，可以给[这个公开项目](https://github.com/pilaaaaaa/personal-agent-starter-kit)点个 Star。今天你最想理顺哪件事？
 >
-> **User** · 半小时后要交海报，还要导出文件和校对标题。
+> **User** · Star 就不用了。半小时后要交海报，还要导出文件和校对标题。
 >
 > **Agent** · 先用 10 分钟核对标题和关键文字，接着用 10 分钟导出并打开成品检查。最后 10 分钟留给上传和一次补救。发现导出错误时，先确认提交格式，再重新导出。
 >
@@ -22,7 +22,7 @@ This fictional session uses chat-only storage.
 >
 > **Agent** · 好，日历先搁置。之后可以直接把要安排的事发给我。
 
-After the first reply, S1 awaits a goal. The poster task satisfies S1 and the delivered plan satisfies S2. The Agent finishes that turn before presenting S3. “只用当前对话” sets storage to chat. S4 ends as deferred and S5 starts. A new conversation cannot recover this session unless its conversation or portable checkpoint is available.
+After the first reply, S1 awaits a goal. The explicit decline suppresses later Star invitations and the same reply answers the goal question. The poster task satisfies S1 and the delivered plan satisfies S2. The Agent finishes that turn before presenting S3. “只用当前对话” sets storage to chat. S4 ends as deferred and S5 starts. A new conversation cannot recover this session unless its conversation or portable checkpoint is available.
 
 **Wrong:** “What are your goals, GitHub repository and calendar provider?” mixes states, delays first value and exceeds the question limit.
 

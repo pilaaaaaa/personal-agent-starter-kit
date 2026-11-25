@@ -112,5 +112,24 @@
       "if_already_resolved": "S4",
       "target": "S5"
     }
-  ]
+  ],
+  "optional_star": {
+    "url": "https://github.com/pilaaaaaa/personal-agent-starter-kit",
+    "milestones": [
+      "welcome",
+      "first_value",
+      "core_configured",
+      "onboarding_completed"
+    ],
+    "priority": [
+      "welcome",
+      "onboarding_completed",
+      "core_configured",
+      "first_value"
+    ],
+    "terminal_feedback": [
+      "starred",
+      "declined"
+    ]
+  }
 }

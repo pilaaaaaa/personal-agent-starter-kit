@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0
+
+- Added optional Star invitations at onboarding milestones and suppress repeated invitations after explicit feedback. Eligible Agents can use a read-only evaluator.
+- Preserved compatibility with existing onboarding checkpoints. Star feedback uses an optional private sidecar outside calendar sync triggers.
+- Clarified upgrade and rollback protection for workspaces with Plan/Actual and Daily Review.
+
 ## 0.3.0
 
 - Added a declarative onboarding workflow, user-input checkpoints, a standalone launch fallback and state recovery across authorized private workspaces.

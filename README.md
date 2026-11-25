@@ -28,6 +28,8 @@ The agent distinguishes deadlines, reminder times and reserved work blocks. It c
 
 Paste the launch link into an ordinary AI conversation and bring something you want to plan, track or decide. A chat that can read the link can start from there. If it cannot open URLs, attach the downloaded `SKILL.md` if uploads are supported. The Agent gives you a useful first result before asking about storage. You can choose to stay in chat, and optional integrations are handled one at a time. To resume on another platform, give it authorized access to your private workspace and branch, or hand it a portable checkpoint if you saved one. Chat-only progress otherwise depends on conversation access. See the [onboarding examples](onboarding/examples.md).
 
+If the kit is useful, you can support it with a [Star on the original public repository](https://github.com/pilaaaaaa/personal-agent-starter-kit). Using the kit requires no Star or GitHub account.
+
 <details>
 <summary>Manual setup for users who want a local workspace</summary>
 
