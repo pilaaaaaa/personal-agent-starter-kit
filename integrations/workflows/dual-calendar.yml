@@ -1,0 +1,50 @@
+name: Personal Agent dual calendar
+on:
+  push:
+    branches: [main]
+    paths:
+      - tasks.json
+      - personal_data/journal.json
+      - agent-config.json
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Apply authorized changes to enabled calendars
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: personal-agent-google-calendar
+  cancel-in-progress: false
+jobs:
+  sync:
+    if: >-
+      github.ref == 'refs/heads/main' && github.event.repository.private &&
+      (github.event_name == 'workflow_dispatch' || vars.PERSONAL_AGENT_DUAL_CALENDAR_AUTO_APPLY == 'true')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/heads/main
+          persist-credentials: false
+      - run: python3 scripts/validate_tasks.py
+      - env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          PERSONAL_AGENT_PLAN_CALENDAR_ID: ${{ secrets.PERSONAL_AGENT_PLAN_CALENDAR_ID }}
+          PERSONAL_AGENT_ACTUAL_CALENDAR_ID: ${{ secrets.PERSONAL_AGENT_ACTUAL_CALENDAR_ID }}
+          PERSONAL_AGENT_CALENDAR_NAMESPACE: ${{ secrets.PERSONAL_AGENT_CALENDAR_NAMESPACE }}
+          PERSONAL_AGENT_CALENDAR_LIVE_ENABLED: ${{ vars.PERSONAL_AGENT_CALENDAR_LIVE_ENABLED }}
+          PERSONAL_AGENT_ALLOW_CALENDAR_DELETIONS: ${{ vars.PERSONAL_AGENT_ALLOW_CALENDAR_DELETIONS }}
+          APPLY: ${{ inputs.apply }}
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" != workflow_dispatch || "$APPLY" == true ]]; then
+            python3 -m personal_agent calendar --apply
+          else
+            python3 -m personal_agent calendar
+          fi

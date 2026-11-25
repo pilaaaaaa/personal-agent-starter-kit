@@ -73,3 +73,9 @@ Installed workspaces check [VERSION](VERSION) on first daily use by default. Upg
 - **Live verification pending.** Google Calendar OAuth and live writes, Apple Reminders access and live sync, and GitHub Actions execution still need end-to-end verification with dedicated test accounts and targets. Agent behavior depends on its tools and permissions.
 
 See the [verification guide](docs/verification.md) for the local checks. Copyright (c) 2026 Galatea. See the [MIT License](LICENSE).
+
+## Optional Plan and Actual calendars
+
+Use the private journal to preserve the Initial Plan, roll the schedule forward and compare it with Actual. Record activities and corrections with their time precision, then review a day or date range. Plan and Actual can be projected independently to Google secondary calendars. Both connections start off.
+
+See [setup, commands and upgrade instructions](docs/calendars.md). The existing reminders and task-only Calendar integrations remain available.

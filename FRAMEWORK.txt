@@ -24,3 +24,14 @@ methods/task-compatibility.md
 methods/value-of-information.md
 methods/workflow-optimization.md
 scripts/validate_tasks.py
+docs/calendars.md
+methods/daily-review.md
+personal_agent/__init__.py
+personal_agent/__main__.py
+personal_agent/calendar.py
+personal_agent/google.py
+personal_agent/google_transport.py
+personal_agent/inbox.py
+personal_agent/settings.py
+personal_agent/store.py
+personal_agent/timeline.py

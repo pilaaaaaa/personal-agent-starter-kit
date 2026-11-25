@@ -43,3 +43,5 @@ These are protocol simulations for the Agent, with fictional state and tool outc
 | Failure during upgrade | A failed candidate leaves the branch untouched. For a failed published upgrade, verify the head and apply an authorized scoped revert restoring the prior version while retaining unrelated changes. |
 
 The interaction protocol has no universal control over whether a chat client fetches a link or activates from it. For live compatibility, run the first two scenarios in a fresh chat on each target platform and record whether it read the actual file and started onboarding. Use a disposable private repository for live write, platform-switch and rollback checks.
+
+Run `python3 -m unittest discover -s tests -v` for the local journal, recovery, review, calendar adapter and legacy-workspace fixtures. Google API behavior is simulated. For a connected check, use the private dry run and authorized synthetic readback described in [the calendar guide](calendars.md).

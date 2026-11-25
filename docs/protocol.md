@@ -27,3 +27,5 @@ New work starts at todo. Modify in place by ID. Set done or cancelled and clear 
 Store recurring routines separately. Derive temporary microsteps in the plan. A task commit can trigger external sync when automation is enabled. Review downstream actions before writing, especially calendar deletion and destination changes.
 
 [GitHub Contents API reference](https://docs.github.com/en/rest/repos/contents)
+
+For journal operations that also change task scheduling or completion, use the [calendar and journal protocol](calendars.md) and publish the affected files in the same conditional change.
