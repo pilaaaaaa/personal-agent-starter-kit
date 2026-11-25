@@ -21,3 +21,5 @@ The public [Raw launch link](https://raw.githubusercontent.com/pilaaaaaa/persona
 - Read the [state protocol](docs/protocol.md) before changing shared state. Before writing personal knowledge to GitHub or upgrading, verify the exact repository belongs to the user and is Private.
 - Use the [decision-method registry](methods/README.md) as needed. Follow local preferences, methods and permission grants in an existing workspace.
 - For installed workspaces, follow the [update protocol](UPDATE.md) on first daily use or on request. For older installations missing that file, use the [public update guide](https://raw.githubusercontent.com/pilaaaaaa/personal-agent-starter-kit/main/UPDATE.md). Continue the user's work when an update check is unavailable.
+
+- For scheduling with Plan, recording or correcting Actual, or reviewing a date range, use the [calendar and journal protocol](docs/calendars.md). Local planning and review are available with calendar connections off.

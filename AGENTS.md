@@ -25,3 +25,10 @@ For an installed workspace, apply [the update protocol](UPDATE.md) on first dail
 - **Explicit authorization** is required for external communication and commitments, spending, sharing private data, accessing sensitive health data, irreversible operations and enabling live external writes. Verify the target, scope, expiry and actual tool permissions. Durable grants may cover specific repeatable operations. Recheck on scope changes and honor revocation immediately.
 
 After writing, verify the actual revision or provider state. Report the task ID, status or time changed and whether any outward effects were completed, queued or pending. Treat successful transport as provisional when the destination cannot be checked.
+
+## Plan, Actual and review
+
+- Use the [journal protocol](docs/calendars.md) for authorized plan changes, actual activity reporting, corrections and reviews. Keep draft options in the conversation until a plan is adopted. Record the trigger, evidence, constraints and reason for each material replan.
+- Preserve the Initial Plan and prior versions. Use the current Rolling Plan for upcoming blocks. Use Actual for reported activity and record time precision and provenance. Check the activity and source IDs before backfilling. Treat external calendar entries as evidence only within the user's read grant.
+- Complete an existing task only when the reported evidence explicitly identifies its completion. Capture useful review feedback with scope and a recheck. Confirm lasting preferences with the user.
+- Preview the selected projections, check their grants and report authorized sync results separately from the journal write. If an executor is unavailable, keep the proposed change pending.

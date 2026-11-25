@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+- Added an optional local journal for Initial Plan, Rolling Plan, Actual and evidence-linked reviews.
+- Added independently enabled Google Calendar Plan and Actual projections with preview, ownership verification and explicit live and deletion controls.
+- Existing workspaces can adopt the framework with calendar connections off. The installed configuration and task formats remain compatible.
+
 ## 0.2.0
 
 - Added link-only launch with task-first onboarding, language selection and GitHub Raw reference resolution.

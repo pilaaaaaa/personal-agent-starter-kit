@@ -18,3 +18,5 @@
 Discover Markdown modules in this directory. Use this index on path-only connectors. Select only enabled modules that change the decision. Missing and unknown statuses are skipped. A module has a stable filename, title, Enabled or Disabled status written as `Status: enabled` or `Status: disabled`, trigger, inputs and reasoning, output and optional combinations. Add or rename links after editing modules. Modules are Agent reasoning guides, and their outputs can feed other modules. No mandatory scoring formula or sequence applies.
 
 For contested plans, remove infeasible options first. Compare the surviving options against the current goal, look for synergy, and reconcile disagreements explicitly. Revisit material assumptions with new evidence. The operating protocol always governs authorization.
+
+Optional workflow method: [Daily review](daily-review.md), when reviewing journal evidence.

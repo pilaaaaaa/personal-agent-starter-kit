@@ -19,6 +19,10 @@ Keep `agent-config.json` at the workspace root. New installations initialize it 
 
 On a legacy workspace without this configuration, use defaults in memory. Identify the installed baseline through trusted installation history or by verifying the framework against a published release. The original pre-manifest baseline is tag `v0.1.0`, whose copied files are listed by its initializer. A workspace may contain customized files even when its historical baseline is known. If the baseline cannot be established, use `null`, preserve all existing files and report uncertainty on a requested check. Never infer the installed version from the current upstream endpoint. Persist the config when authorized and safe. A legacy Agent that has never loaded this protocol can be started from the public [launch entry](https://raw.githubusercontent.com/pilaaaaaa/personal-agent-starter-kit/main/SKILL.md) and pointed at the existing private repository.
 
+## Optional calendar settings
+
+Starting with 0.3.0, the optional `calendars` section in the private config defaults to disconnected when absent. The framework upgrade can preserve the config exactly apart from the version field. The [calendar guide](docs/calendars.md#upgrade-an-existing-workspace) covers opt-in, Google cutover and authorized backfill.
+
 ## Check on use
 
 1. For an installed workspace, check on its first use each calendar day according to the user's known time zone, falling back to UTC. When authorized conditional writes are available, claim the daily check by recording `last_attempt_at` before fetching. If the conditional write loses a race, re-read the settings and skip the routine check if today is already claimed. An explicit request may bypass the schedule and suppression. Without authorized conditional writes, remember attempts and choices only as far as the current session can carry them. Use the [state protocol](docs/protocol.md) for authorized private config writes and merge unrelated settings changes.

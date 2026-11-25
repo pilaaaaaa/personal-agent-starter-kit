@@ -8,5 +8,10 @@
     "ignored_versions": [],
     "snoozed_until": {},
     "auto_update": false
+  },
+  "calendars": {
+    "provider": "none",
+    "plan": {"enabled": false},
+    "actual": {"enabled": false}
   }
 }

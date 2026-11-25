@@ -77,6 +77,21 @@ class WorkspaceTests(unittest.TestCase):
                 self.assertFalse(name.startswith(("planning/", "templates/", ".github/")))
                 self.assertEqual((workspace / name).read_bytes(), (ROOT / name).read_bytes())
 
+    def test_initialized_workspace_can_run_disconnected_calendar_and_snapshot(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            workspace = Path(tmp) / "private"
+            initialize(workspace)
+            for command, expected in (("calendar", {"status": "disconnected"}), ("snapshot", None)):
+                output = subprocess.check_output([sys.executable, "-m", "personal_agent", command],
+                                                 cwd=workspace, text=True)
+                info = json.loads(output)
+                if expected:
+                    self.assertEqual(info, expected)
+                else:
+                    self.assertEqual(info["journal"]["operations"], [])
+                    self.assertEqual(info["tasks"]["tasks"], [])
+            self.assertFalse((workspace / "personal_data").exists())
+
     def test_empty_init_and_concurrent_writers(self):
         with tempfile.TemporaryDirectory() as tmp:
             parent = Path(tmp)
