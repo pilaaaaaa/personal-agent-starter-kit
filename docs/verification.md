@@ -5,6 +5,7 @@ Use Python 3.9+ and Git for the offline checks.
 ```sh
 python3 scripts/validate_tasks.py templates/tasks.json
 python3 scripts/sync-google-calendar.py --tasks templates/tasks.json --validate-only
+python3 -m pip install -r tests/requirements.txt
 python3 -m unittest discover -s tests -v
 bash -n scripts/install-sync.sh
 ```
@@ -17,7 +18,7 @@ swiftc -parse-as-library -D SYNC_TEST -module-cache-path "$pa_build/modules" syn
 "$pa_build/rules"
 ```
 
-The offline harness exercises empty initialization, task lifecycle, a dependency cycle, two Git writers, calendar ownership, retries and deletion guards. The Swift harness covers snapshot, schedule, completion and deletion rules. Use the fictional conversation in [the example](../examples/scenarios.md) to exercise the planning protocol with an Agent. Check the updated plan and which knowledge files changed. The same file contains five onboarding walkthroughs covering quick use, method explanation, customization, withheld preferences and incremental connections. Run provider smoke tests in isolated targets as described in [the connector guide](../integrations/README.md).
+The offline harness exercises empty initialization, task lifecycle, a dependency cycle, two Git writers, calendar ownership, retries and deletion guards. The Swift harness covers snapshot, schedule, completion and deletion rules. Use the fictional conversation in [the example](../examples/scenarios.md) to exercise the planning protocol with an Agent. Check the updated plan and which knowledge files changed. The older planning examples are daily-use scenarios. Use the [onboarding example](../onboarding/examples.md) and [conversation fixtures](../tests/fixtures/onboarding.json) for the current launch flow. Run provider smoke tests in isolated targets as described in [the connector guide](../integrations/README.md).
 
 ## Before publication
 
@@ -43,3 +44,17 @@ These are protocol simulations for the Agent, with fictional state and tool outc
 | Failure during upgrade | A failed candidate leaves the branch untouched. For a failed published upgrade, verify the head and apply an authorized scoped revert restoring the prior version while retaining unrelated changes. |
 
 The interaction protocol has no universal control over whether a chat client fetches a link or activates from it. For live compatibility, run the first two scenarios in a fresh chat on each target platform and record whether it read the actual file and started onboarding. Use a disposable private repository for live write, platform-switch and rollback checks.
+
+
+## Manual cross-platform matrix
+
+Run each fixture in a fresh chat or from the exact checkpoint it specifies. Use synthetic tasks, a disposable authorized private repository for connector cases, and observer-only testing where tools are unavailable. Start link-only tests with the bare canonical Raw URL. Separately try the explicit launch sentence and the attached entry file. Observe the final response, question count, tools called and one-turn stop. For write and resume tests, read back the exact branch and checkpoint. Record platform, model, date, URL fetch evidence, tools, actual response, result and any divergence.
+
+| Host | Bare URL / explicit / attachment | Guarded turns, exit and fallback | Private read/resume and conditional write | Provider side effects |
+| --- | --- | --- | --- | --- |
+| ChatGPT | Unverified | Unverified | Unverified | Unverified |
+| Claude | Unverified | Unverified | Unverified | Unverified |
+| Gemini | Unverified | Unverified | Unverified | Unverified |
+| 豆包 | Unverified | Unverified | Unverified | Unverified |
+
+Offline fixtures use authored user messages, interpreted guard events and expected observations. They validate the protocol harness without calling model APIs. Missing URL access should lead to an attachment request where possible. Missing supporting files after entry retrieval should still allow chat onboarding.

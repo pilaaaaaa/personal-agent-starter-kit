@@ -24,3 +24,8 @@ methods/task-compatibility.md
 methods/value-of-information.md
 methods/workflow-optimization.md
 scripts/validate_tasks.py
+onboarding/workflow.json
+onboarding/interaction.md
+onboarding/state.schema.json
+onboarding/examples.md
+onboarding/learning.md

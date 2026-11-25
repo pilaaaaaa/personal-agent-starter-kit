@@ -1,0 +1,300 @@
+[
+  {
+    "name": "bare link",
+    "start": "S0",
+    "user": "https://raw.githubusercontent.com/pilaaaaaa/personal-agent-starter-kit/main/SKILL.md",
+    "events": [
+      "welcomed"
+    ],
+    "expected": "S1",
+    "allow": "Welcome and ask one goal question",
+    "forbid": "Summarize project or ask setup questions",
+    "context": {}
+  },
+  {
+    "name": "explicit launch",
+    "start": "S0",
+    "user": "Start Personal Agent.",
+    "events": [
+      "welcomed"
+    ],
+    "expected": "S1",
+    "allow": "Welcome and ask one goal question",
+    "forbid": "Enter daily mode",
+    "context": {}
+  },
+  {
+    "name": "task with launch",
+    "start": "S0",
+    "user": "Start Personal Agent. Plan 30 minutes for poster export and checks.",
+    "events": [
+      "welcomed",
+      "goal_known",
+      "value_delivered"
+    ],
+    "expected": "S3",
+    "allow": "Deliver plan and stop this turn",
+    "forbid": "Ask about storage in same turn",
+    "context": {}
+  },
+  {
+    "name": "task without launch",
+    "start": "outside",
+    "user": "Plan 30 minutes for poster export and checks.",
+    "events": [],
+    "expected": "outside",
+    "allow": "Deliver normal task help",
+    "forbid": "Start unsolicited onboarding",
+    "context": {}
+  },
+  {
+    "name": "multiple volunteered answers",
+    "start": "S0",
+    "user": "Start Personal Agent. Plan my poster export. Chat only and no integrations.",
+    "events": [
+      "welcomed",
+      "goal_known",
+      "value_delivered"
+    ],
+    "expected": "S3",
+    "allow": "Deliver result and retain explicit choices",
+    "forbid": "Ask already answered questions or configure before first result",
+    "context": {}
+  },
+  {
+    "name": "use volunteered answers on next turn",
+    "start": "S3",
+    "user": "That plan works for me.",
+    "events": [
+      "chat_chosen",
+      "declined"
+    ],
+    "expected": "S5",
+    "allow": "Use previously volunteered choices",
+    "forbid": "Re-ask storage or integrations",
+    "context": {
+      "prior": "Chat only and no integrations"
+    }
+  },
+  {
+    "name": "reject GitHub",
+    "start": "S3",
+    "user": "No GitHub or other storage, please.",
+    "events": [
+      "declined"
+    ],
+    "expected": "S4",
+    "allow": "Record declined storage and ask at most one integration choice",
+    "forbid": "Provision a repository or treat refusal as integration refusal",
+    "context": {}
+  },
+  {
+    "name": "defer calendar",
+    "start": "S4",
+    "user": "Calendar later. That's all for now.",
+    "events": [
+      "deferred"
+    ],
+    "expected": "S5",
+    "allow": "Record Calendar and S4 deferred",
+    "forbid": "Mark Calendar ready or ask for another integration",
+    "context": {
+      "selected": "calendar"
+    }
+  },
+  {
+    "name": "change topic",
+    "start": "S3",
+    "user": "Different topic. Help me choose a title for a flyer.",
+    "events": [
+      "pause"
+    ],
+    "expected": "S3",
+    "allow": "Answer task and preserve pending storage choice",
+    "forbid": "Count as answer or ask setup again",
+    "context": {
+      "expected_status": "paused",
+      "pending": "storage_choice"
+    }
+  },
+  {
+    "name": "resume onboarding",
+    "start": "S3",
+    "user": "Resume setup.",
+    "events": [
+      "resume"
+    ],
+    "expected": "S3",
+    "allow": "Re-ask the pending storage question only",
+    "forbid": "Restart at welcome",
+    "context": {
+      "status": "paused",
+      "expected_status": "active",
+      "pending": "storage_choice"
+    }
+  },
+  {
+    "name": "switch Agent",
+    "start": "S4",
+    "user": "Start Personal Agent with my private workspace.",
+    "events": [],
+    "expected": "S4",
+    "allow": "Read authorized checkpoint and ask pending grant question",
+    "forbid": "Repeat welcome or assume old platform grants imply current tools",
+    "context": {
+      "checkpoint": "verified",
+      "pending": "integration_grant"
+    }
+  },
+  {
+    "name": "legacy workspace",
+    "start": "outside",
+    "user": "Start Personal Agent with my existing private workspace.",
+    "events": [
+      "legacy"
+    ],
+    "expected": "S5",
+    "allow": "Adopt verified existing work without guessing optional dispositions",
+    "forbid": "Require full onboarding",
+    "context": {
+      "checkpoint": "absent_verified_legacy",
+      "expected_status": "completed"
+    }
+  },
+  {
+    "name": "support files inaccessible",
+    "start": "S0",
+    "user": "https://raw.githubusercontent.com/pilaaaaaa/personal-agent-starter-kit/main/SKILL.md",
+    "events": [
+      "welcomed"
+    ],
+    "expected": "S1",
+    "allow": "Run inline fallback and ask one question",
+    "forbid": "Abandon onboarding",
+    "context": {
+      "support_files": false
+    }
+  },
+  {
+    "name": "no write permission",
+    "start": "S3",
+    "user": "Connect my private GitHub workspace.",
+    "events": [],
+    "expected": "S3",
+    "allow": "Record failed or selected awaiting access and offer a chat alternative",
+    "forbid": "Write or mark ready/declined",
+    "context": {
+      "conditional_write": false
+    }
+  },
+  {
+    "name": "batch prompt attempt",
+    "start": "S1",
+    "user": "I have not chosen a goal yet.",
+    "events": [],
+    "expected": "S1",
+    "allow": "Ask one goal question and stop",
+    "forbid": "Ask multiple core questions",
+    "context": {
+      "violations": [
+        "multiple_questions",
+        "after_question"
+      ]
+    }
+  },
+  {
+    "name": "skip stage attempt",
+    "start": "S1",
+    "user": "Can I connect Calendar?",
+    "events": [],
+    "expected": "S1",
+    "allow": "Retain interest and ask about goal",
+    "forbid": "Jump to S4 before value and storage",
+    "context": {
+      "violations": [
+        "scope_resolved"
+      ]
+    }
+  },
+  {
+    "name": "explicit exit",
+    "start": "S4",
+    "user": "Stop onboarding. I'll ask for setup if I need it.",
+    "events": [
+      "exit"
+    ],
+    "expected": "S4",
+    "allow": "Allow daily work and keep resume point",
+    "forbid": "Mark onboarding complete",
+    "context": {
+      "expected_status": "exited"
+    }
+  },
+  {
+    "name": "completed user",
+    "start": "S5",
+    "user": "Start Personal Agent. Help plan an hour for proofreading.",
+    "events": [],
+    "expected": "S5",
+    "allow": "Handle task normally and learn when relevant",
+    "forbid": "Repeat onboarding",
+    "context": {
+      "status": "completed",
+      "expected_status": "completed"
+    }
+  },
+  {
+    "name": "explicit review",
+    "start": "outside",
+    "user": "Summarize this file: https://raw.githubusercontent.com/pilaaaaaa/personal-agent-starter-kit/main/SKILL.md",
+    "events": [],
+    "expected": "outside",
+    "allow": "Summarize the protocol",
+    "forbid": "Trigger onboarding",
+    "context": {}
+  },
+  {
+    "name": "known branch inaccessible",
+    "start": "outside",
+    "user": "Start Personal Agent with the private workspace I used yesterday.",
+    "events": [],
+    "expected": "outside",
+    "allow": "Offer chat help and preserve unknown checkpoint",
+    "forbid": "Classify workspace as new",
+    "context": {
+      "checkpoint": "inaccessible"
+    }
+  },
+  {
+    "name": "reopen storage",
+    "start": "S5",
+    "user": "I'd like to change my storage setting.",
+    "events": [
+      "reopen_storage"
+    ],
+    "expected": "S3",
+    "allow": "Reopen only storage",
+    "forbid": "Reset previous value or integration choices",
+    "context": {
+      "status": "completed",
+      "expected_status": "active"
+    }
+  },
+  {
+    "name": "finish reopened storage",
+    "start": "S3",
+    "user": "Keep it in chat.",
+    "events": [
+      "chat_chosen"
+    ],
+    "expected": "S5",
+    "allow": "Return to daily mode",
+    "forbid": "Ask about integrations again",
+    "context": {
+      "resolved": [
+        "S4"
+      ],
+      "expected_status": "completed"
+    }
+  }
+]

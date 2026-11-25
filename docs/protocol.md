@@ -8,6 +8,10 @@ Read the latest branch head and pin all reads to that commit. Select the target 
 
 With Git, start the transaction from the pinned revision in a clean checkout, commit the scoped diff and use an ordinary fast-forward push. Never force-push. On rejection or an uncertain result fetch the latest head, check whether the same intent already landed, and reapply only to unchanged target fields. For a GitHub connector, use a commit with an expected head or a non-forced ref update of a commit whose sole parent is the pinned head. File-only clients can use the file SHA for a single-file update when the change depends only on that file. Use a branch-head check for plans that depend on several files. A connector without conditional writes should produce a patch for an authorized writer. Review the resulting latest revision. If another writer changed the same field differently, resolve that conflict before writing.
 
+## Onboarding checkpoint
+
+Use the same pinned revision and conditional-write procedure for `personal_data/onboarding_state.json`. See the [interaction protocol](../onboarding/interaction.md#checkpoint-and-recovery) for initialization, validation and legacy adoption. Store workflow metadata only. Before writing, verify current user ownership, Private visibility, exact branch and authorization.
+
 ## Task records
 
 | Field | Meaning |

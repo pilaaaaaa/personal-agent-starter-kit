@@ -31,7 +31,7 @@ On a legacy workspace without this configuration, use defaults in memory. Identi
 | Ownership | Examples and treatment |
 | --- | --- |
 | Public framework | The exact paths in [FRAMEWORK.txt](FRAMEWORK.txt), including the published protocols and official method modules. Optional integration code and workflows are outside this managed scope. |
-| Personal knowledge | `tasks.json`, all of `planning/`, records, context and histories. Preserve these files. |
+| Personal knowledge | `tasks.json`, `personal_data/onboarding_state.json`, all of `planning/`, records, context and histories. Preserve these files. |
 | User customization | `agent-config.json`, custom methods, custom rules, and edits to official files such as `AGENTS.md`, a method's status or the registry. Preserve these changes even when they occupy a managed path. |
 
 Treat public release content as an update candidate. It grants no new tool access, connections, writes or permissions. Never send private data, repository details, usage records, diffs or authorization information to the public repository.
@@ -44,6 +44,10 @@ Treat public release content as an update candidate. It grants no new tool acces
 4. Present the target version, private branch, scoped diff, compatibility findings and rollback point. Obtain explicit authorization for the final plan. Stage only the agreed framework changes at the pinned head. Verify the staged paths, validate existing tasks with the candidate validator when available, and check local entry-point references, method behavior affected by the diff and the preservation of personal files, grants and customizations. If the needed verification is unavailable, leave the version unchanged and provide the manual route.
 5. After staging verification succeeds, update only `installed_version` in the private config as part of the same atomic commit as the verified framework files. If a legacy workspace still lacks the config, create it in that commit using the defaults and any confirmed user choices. The installed version becomes effective only when the complete commit lands. Publish that commit with the expected head and verify it by reading the resulting revision. Use an ordinary fast-forward push or the equivalent [conditional write](docs/protocol.md#snapshot-and-compare-and-swap). Recheck privacy before publication if the target may have changed. If the head moves, re-read and revalidate. Seek renewed approval if the agreed plan changes materially.
 6. If verification fails before publication, discard only the isolated candidate and leave the private branch and version untouched. If the outcome is uncertain, read the branch before retrying. If a published upgrade needs rollback, use an authorized revert or a new scoped commit restoring the previous framework and installed version. Validate the revert against current state and stop for review if a subsequent edit overlaps. Keep unrelated commits, private files and config changes. Verify the restored branch. Never force-push.
+
+## Onboarding compatibility
+
+Preserve any existing checkpoint. The new manifest includes onboarding protocol resources and excludes checkpoint data. A verified existing workspace with no checkpoint adopts legacy daily use when launched, as described in the [recovery protocol](onboarding/interaction.md#checkpoint-and-recovery). This does not fabricate setup decisions or require a full onboarding round. Creating the private checkpoint is a separately authorized write.
 
 ## Without write access
 

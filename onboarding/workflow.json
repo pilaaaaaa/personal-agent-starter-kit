@@ -1,0 +1,116 @@
+{
+  "version": 1,
+  "initial_state": "S0",
+  "steady_state": "S5",
+  "max_core_questions_per_turn": 1,
+  "states": {
+    "S0": {
+      "entry": "New launch with no recoverable checkpoint or verified legacy workspace.",
+      "goal": "Brief welcome in the user's language.",
+      "required": "Welcome delivered.",
+      "allowed": "Welcome, inspect available checkpoint, ask the S1 question after transition.",
+      "wait": "No separate welcome confirmation.",
+      "fallback": "Welcome in chat.",
+      "transitions": {
+        "welcomed": "S1"
+      }
+    },
+    "S1": {
+      "entry": "S0 welcomed.",
+      "goal": "Find the user's first meaningful outcome.",
+      "required": "An explicit goal or concrete need from the user.",
+      "allowed": "Use existing answers or ask one question about the goal.",
+      "wait": "Yes when goal is missing.",
+      "fallback": "Accept a short chat description.",
+      "transitions": {
+        "goal_known": "S2"
+      }
+    },
+    "S2": {
+      "entry": "S1 has a goal.",
+      "goal": "Deliver usable help with a real task before setup.",
+      "required": "A concrete real task and a delivered, actionable result.",
+      "allowed": "Ask for one missing input, draft, plan or compare options within existing permissions.",
+      "wait": "Yes when a material input is needed. Send the result and finish that turn before offering setup.",
+      "fallback": "Deliver a useful chat plan or ask for one missing input when external access is essential.",
+      "transitions": {
+        "value_delivered": "S3"
+      }
+    },
+    "S3": {
+      "entry": "S2 delivered value.",
+      "goal": "Record the user's storage decision.",
+      "required": "An explicit chat, storage, decline or defer decision. Selected storage requires verified setup.",
+      "allowed": "Offer chat, authorized private local storage or user-owned private GitHub. Verify selected target before any write.",
+      "wait": "Yes for missing choice, target or authorization. Configuration failure stays here until retry or explicit alternative.",
+      "fallback": "Continue in chat and let the user choose chat-only, decline or defer. Do not infer that choice.",
+      "transitions": {
+        "chat_chosen": "S4",
+        "storage_verified": "S4",
+        "declined": "S4",
+        "deferred": "S4"
+      }
+    },
+    "S4": {
+      "entry": "S3 resolved by choice, verification, decline or defer.",
+      "goal": "Resolve current integration scope one module at a time.",
+      "required": "An explicit scope decision including no integrations or later, with all selected modules ready, declined or deferred.",
+      "allowed": "Ask about one relevant module, verify capabilities, obtain scoped authorization, and verify the configured effect.",
+      "wait": "Yes for each missing decision or grant. Failure or unavailable tooling needs explicit defer or decline, or a retry that succeeds.",
+      "fallback": "Offer an in-chat alternative and wait for the user's decision about setup.",
+      "transitions": {
+        "scope_resolved": "S5",
+        "declined": "S5",
+        "deferred": "S5"
+      }
+    },
+    "S5": {
+      "entry": "S4 resolved or verified legacy workspace adopted.",
+      "goal": "Normal use and progressive learning.",
+      "required": "For new users, S0\u2013S2 completed and S3\u2013S4 each resolved.",
+      "allowed": "Normal work under the operating protocol and user-led reopening of S3 or S4.",
+      "wait": "No onboarding questions unless the user reopens optional setup.",
+      "fallback": "Continue authorized chat work.",
+      "transitions": {
+        "reopen_storage": "S3",
+        "reopen_integrations": "S4"
+      }
+    }
+  },
+  "controls": {
+    "pause": {
+      "from": "active",
+      "to": "paused",
+      "checkpoint": "Preserve current state and pending question. An unrelated task pauses onboarding and receives a task-only turn."
+    },
+    "resume": {
+      "from": [
+        "paused",
+        "exited"
+      ],
+      "to": "active",
+      "checkpoint": "Restore exact state and unresolved question on explicit resume or relaunch. A direct answer to the pending question also resumes paused status."
+    },
+    "exit": {
+      "from": [
+        "active",
+        "paused"
+      ],
+      "to": "exited",
+      "checkpoint": "Explicit exit permits normal work with setup unresolved. Retain the resume point."
+    },
+    "legacy": {
+      "from": "no_checkpoint",
+      "to": "completed",
+      "checkpoint": "Verified existing workspace goes to S5 as legacy. Make no claim about prior setup decisions."
+    }
+  },
+  "continuations": [
+    {
+      "from": "S3",
+      "default_target": "S4",
+      "if_already_resolved": "S4",
+      "target": "S5"
+    }
+  ]
+}

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0
+
+- Added a declarative onboarding workflow, user-input checkpoints, a standalone launch fallback and state recovery across authorized private workspaces.
+- Deliver one real result before storage and integrations. Record user decisions, configuration failures and deferrals separately.
+- Existing installations adopt daily use without restarting onboarding. The framework upgrade preserves private checkpoints.
+- Added conversation fixtures, platform verification matrix and architecture notes. No onboarding runtime is required.
+
 ## 0.2.0
 
 - Added link-only launch with task-first onboarding, language selection and GitHub Raw reference resolution.

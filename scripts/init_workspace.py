@@ -1,5 +1,6 @@
 """Initialize a new, empty knowledge base without copying personal or Git state."""
 import argparse
+from datetime import datetime, timezone
 import json
 from pathlib import Path
 import shutil
@@ -16,6 +17,8 @@ def initialize(target):
     sources = {name: name for name in framework}
     config = json.loads((ROOT / "templates/agent-config.json").read_text(encoding="utf-8"))
     config["installed_version"] = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+    checkpoint = json.loads((ROOT / "templates/onboarding_state.json").read_text(encoding="utf-8"))
+    checkpoint["last_updated_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
     sources["tasks.json"] = "templates/tasks.json"
     sources.update({f"planning/{name}": f"templates/planning/{name}" for name in PLANNING})
     for name, source in sources.items():
@@ -25,6 +28,10 @@ def initialize(target):
         output = target / name
         output.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(ROOT / source, output)
+    (target / "personal_data").mkdir()
+    (target / "personal_data/onboarding_state.json").write_text(
+        json.dumps(checkpoint, indent=2) + "\n", encoding="utf-8"
+    )
     (target / "agent-config.json").write_text(
         json.dumps(config, indent=2) + "\n", encoding="utf-8"
     )

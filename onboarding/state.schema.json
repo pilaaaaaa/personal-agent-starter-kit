@@ -1,0 +1,329 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "workflow_version",
+    "origin",
+    "overall_status",
+    "current_state",
+    "completed_states",
+    "deferred_states",
+    "declined_states",
+    "pending_question",
+    "resume_state",
+    "storage_status",
+    "integration_scope",
+    "integration_status",
+    "last_updated_at"
+  ],
+  "properties": {
+    "workflow_version": {
+      "const": 1
+    },
+    "origin": {
+      "enum": [
+        "new",
+        "legacy"
+      ]
+    },
+    "overall_status": {
+      "enum": [
+        "active",
+        "paused",
+        "exited",
+        "completed"
+      ]
+    },
+    "current_state": {
+      "enum": [
+        "S0",
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
+    },
+    "completed_states": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "S0",
+          "S1",
+          "S2",
+          "S3",
+          "S4"
+        ]
+      }
+    },
+    "deferred_states": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "S3",
+          "S4"
+        ]
+      }
+    },
+    "declined_states": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "S3",
+          "S4"
+        ]
+      }
+    },
+    "pending_question": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "key"
+          ],
+          "properties": {
+            "state": {
+              "enum": [
+                "S1",
+                "S2",
+                "S3",
+                "S4"
+              ]
+            },
+            "key": {
+              "enum": [
+                "goal",
+                "first_task",
+                "task_input",
+                "storage_choice",
+                "storage_target",
+                "storage_retry",
+                "integration_scope",
+                "integration_provider",
+                "integration_grant",
+                "integration_retry",
+                "integration_next"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "resume_state": {
+      "enum": [
+        null,
+        "S0",
+        "S1",
+        "S2",
+        "S3",
+        "S4"
+      ]
+    },
+    "storage_status": {
+      "enum": [
+        "unasked",
+        "selected",
+        "chat",
+        "ready",
+        "declined",
+        "deferred",
+        "failed"
+      ]
+    },
+    "integration_scope": {
+      "enum": [
+        "unasked",
+        "selected",
+        "resolved",
+        "declined",
+        "deferred"
+      ]
+    },
+    "integration_status": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+      },
+      "additionalProperties": {
+        "enum": [
+          "unasked",
+          "selected",
+          "ready",
+          "declined",
+          "deferred",
+          "failed",
+          "unavailable"
+        ]
+      }
+    },
+    "last_updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Personal Agent onboarding checkpoint",
+  "allOf": [
+    {
+      "if": {"properties": {"overall_status": {"const": "completed"}}},
+      "then": {"properties": {"current_state": {"const": "S5"},"pending_question": {"const": null}}}
+    },
+    {
+      "if": {"properties": {"current_state": {"const": "S5"}}},
+      "then": {"properties": {"overall_status": {"const": "completed"}}}
+    },
+    {
+      "if": {"properties": {"overall_status": {"enum": ["active","completed"]}}},
+      "then": {"properties": {"resume_state": {"const": null}}}
+    },
+    {
+      "if": {"properties": {"overall_status": {"enum": ["paused","exited"]},"current_state": {"const": "S0"}}},
+      "then": {"properties": {"resume_state": {"const": "S0"}}}
+    },
+    {
+      "if": {"properties": {"current_state": {"const": "S0"}}},
+      "then": {"properties": {"pending_question": {"const": null}}}
+    },
+    {
+      "if": {"properties": {"overall_status": {"enum": ["paused","exited"]},"current_state": {"const": "S1"}}},
+      "then": {"properties": {"resume_state": {"const": "S1"}}}
+    },
+    {
+      "if": {"properties": {"current_state": {"const": "S1"}}},
+      "then": {"properties": {"pending_question": {"oneOf": [{"type": "null"},{"type": "object","additionalProperties": false,"required": ["state","key"],"properties": {"state": {"const": "S1"},"key": {"enum": ["goal"]}}}]}}}
+    },
+    {
+      "if": {"properties": {"overall_status": {"enum": ["paused","exited"]},"current_state": {"const": "S2"}}},
+      "then": {"properties": {"resume_state": {"const": "S2"}}}
+    },
+    {
+      "if": {"properties": {"current_state": {"const": "S2"}}},
+      "then": {"properties": {"pending_question": {"oneOf": [{"type": "null"},{"type": "object","additionalProperties": false,"required": ["state","key"],"properties": {"state": {"const": "S2"},"key": {"enum": ["first_task","task_input"]}}}]}}}
+    },
+    {
+      "if": {"properties": {"overall_status": {"enum": ["paused","exited"]},"current_state": {"const": "S3"}}},
+      "then": {"properties": {"resume_state": {"const": "S3"}}}
+    },
+    {
+      "if": {"properties": {"current_state": {"const": "S3"}}},
+      "then": {"properties": {"pending_question": {"oneOf": [{"type": "null"},{"type": "object","additionalProperties": false,"required": ["state","key"],"properties": {"state": {"const": "S3"},"key": {"enum": ["storage_choice","storage_target","storage_retry"]}}}]}}}
+    },
+    {
+      "if": {"properties": {"overall_status": {"enum": ["paused","exited"]},"current_state": {"const": "S4"}}},
+      "then": {"properties": {"resume_state": {"const": "S4"}}}
+    },
+    {
+      "if": {"properties": {"current_state": {"const": "S4"}}},
+      "then": {"properties": {"pending_question": {"oneOf": [{"type": "null"},{"type": "object","additionalProperties": false,"required": ["state","key"],"properties": {"state": {"const": "S4"},"key": {"enum": ["integration_scope","integration_provider","integration_grant","integration_retry","integration_next"]}}}]}}}
+    },
+    {
+      "if": {"properties": {"completed_states": {"contains": {"const": "S3"}}}},
+      "then": {"properties": {"declined_states": {"not": {"contains": {"const": "S3"}}}}}
+    },
+    {
+      "if": {"properties": {"completed_states": {"contains": {"const": "S3"}}}},
+      "then": {"properties": {"deferred_states": {"not": {"contains": {"const": "S3"}}}}}
+    },
+    {
+      "if": {"properties": {"declined_states": {"contains": {"const": "S3"}}}},
+      "then": {"properties": {"deferred_states": {"not": {"contains": {"const": "S3"}}}}}
+    },
+    {
+      "if": {"properties": {"completed_states": {"contains": {"const": "S4"}}}},
+      "then": {"properties": {"declined_states": {"not": {"contains": {"const": "S4"}}}}}
+    },
+    {
+      "if": {"properties": {"completed_states": {"contains": {"const": "S4"}}}},
+      "then": {"properties": {"deferred_states": {"not": {"contains": {"const": "S4"}}}}}
+    },
+    {
+      "if": {"properties": {"declined_states": {"contains": {"const": "S4"}}}},
+      "then": {"properties": {"deferred_states": {"not": {"contains": {"const": "S4"}}}}}
+    },
+    {
+      "if": {"properties": {"origin": {"const": "new"},"current_state": {"const": "S1"}}},
+      "then": {"properties": {"completed_states": {"allOf": [{"contains": {"const": "S0"}}]}}}
+    },
+    {
+      "if": {"properties": {"origin": {"const": "new"},"current_state": {"const": "S2"}}},
+      "then": {"properties": {"completed_states": {"allOf": [{"contains": {"const": "S0"}},{"contains": {"const": "S1"}}]}}}
+    },
+    {
+      "if": {"properties": {"origin": {"const": "new"},"current_state": {"const": "S3"}}},
+      "then": {"properties": {"completed_states": {"allOf": [{"contains": {"const": "S0"}},{"contains": {"const": "S1"}},{"contains": {"const": "S2"}}]}}}
+    },
+    {
+      "if": {"properties": {"origin": {"const": "new"},"current_state": {"const": "S4"}}},
+      "then": {"properties": {"completed_states": {"allOf": [{"contains": {"const": "S0"}},{"contains": {"const": "S1"}},{"contains": {"const": "S2"}}]}}}
+    },
+    {
+      "if": {"properties": {"origin": {"const": "new"},"current_state": {"const": "S4"}}},
+      "then": {"anyOf": [{"properties": {"completed_states": {"contains": {"const": "S3"}}}},{"properties": {"declined_states": {"contains": {"const": "S3"}}}},{"properties": {"deferred_states": {"contains": {"const": "S3"}}}}]}
+    },
+    {
+      "if": {"properties": {"origin": {"const": "new"},"current_state": {"const": "S5"}}},
+      "then": {"allOf": [{"anyOf": [{"properties": {"completed_states": {"contains": {"const": "S3"}}}},{"properties": {"declined_states": {"contains": {"const": "S3"}}}},{"properties": {"deferred_states": {"contains": {"const": "S3"}}}}]},{"anyOf": [{"properties": {"completed_states": {"contains": {"const": "S4"}}}},{"properties": {"declined_states": {"contains": {"const": "S4"}}}},{"properties": {"deferred_states": {"contains": {"const": "S4"}}}}]}]}
+    },
+    {
+      "if": {"properties": {"completed_states": {"contains": {"const": "S3"}}}},
+      "then": {"properties": {"storage_status": {"enum": ["chat","ready"]}}}
+    },
+    {
+      "if": {"properties": {"storage_status": {"enum": ["chat","ready"]}}},
+      "then": {"properties": {"completed_states": {"contains": {"const": "S3"}}}}
+    },
+    {
+      "if": {"properties": {"declined_states": {"contains": {"const": "S3"}}}},
+      "then": {"properties": {"storage_status": {"enum": ["declined"]}}}
+    },
+    {
+      "if": {"properties": {"storage_status": {"enum": ["declined"]}}},
+      "then": {"properties": {"declined_states": {"contains": {"const": "S3"}}}}
+    },
+    {
+      "if": {"properties": {"deferred_states": {"contains": {"const": "S3"}}}},
+      "then": {"properties": {"storage_status": {"enum": ["deferred"]}}}
+    },
+    {
+      "if": {"properties": {"storage_status": {"enum": ["deferred"]}}},
+      "then": {"properties": {"deferred_states": {"contains": {"const": "S3"}}}}
+    },
+    {
+      "if": {"properties": {"completed_states": {"contains": {"const": "S4"}}}},
+      "then": {"properties": {"integration_scope": {"enum": ["resolved"]}}}
+    },
+    {
+      "if": {"properties": {"integration_scope": {"enum": ["resolved"]}}},
+      "then": {"properties": {"completed_states": {"contains": {"const": "S4"}}}}
+    },
+    {
+      "if": {"properties": {"declined_states": {"contains": {"const": "S4"}}}},
+      "then": {"properties": {"integration_scope": {"enum": ["declined"]}}}
+    },
+    {
+      "if": {"properties": {"integration_scope": {"enum": ["declined"]}}},
+      "then": {"properties": {"declined_states": {"contains": {"const": "S4"}}}}
+    },
+    {
+      "if": {"properties": {"deferred_states": {"contains": {"const": "S4"}}}},
+      "then": {"properties": {"integration_scope": {"enum": ["deferred"]}}}
+    },
+    {
+      "if": {"properties": {"integration_scope": {"enum": ["deferred"]}}},
+      "then": {"properties": {"deferred_states": {"contains": {"const": "S4"}}}}
+    },
+    {
+      "if": {"properties": {"origin": {"const": "new"},"current_state": {"const": "S5"}}},
+      "then": {"properties": {"completed_states": {"allOf": [{"contains": {"const": "S0"}},{"contains": {"const": "S1"}},{"contains": {"const": "S2"}}]}}}
+    }
+  ]
+}

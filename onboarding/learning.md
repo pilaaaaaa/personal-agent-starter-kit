@@ -1,0 +1,7 @@
+# Learn during normal use
+
+Start with the work the user brought. Notice a recurring preference, routine, parallel-work constraint or decision principle when it would materially change the next plan. Use confirmed evidence first. Ask one focused question about permanence or scope when needed, after delivering useful work where possible. Accept corrections and refusal, and leave low-value uncertainty unresolved. A pattern suggests a hypothesis. A user-confirmed rule can be applied durably.
+
+Use `planning/preferences.md` for lasting choices, `planning/context.md` for temporary conditions and expiry, `planning/routines.md` for recurring routines, and `planning/decision_log.md` for tentative inferences, rationale and outcomes. Use the [method registry](../methods/README.md) for compatibility and decision logic. Apply one-time directions only to the situation they address. Store only what is authorized in an available private destination.
+
+Introduce features in response to concrete needs. A delayed reply can suggest follow-up tracking. A changed deadline can suggest replanning. Repeated manual scheduling can suggest reopening Calendar setup. Honor a standing preference against feature offers. If the user wants more autonomy, review the precise action, destination, limits, expiry and revocation under the [permissions protocol](../AGENTS.md#permissions). Learning a preference grants no tool access.

@@ -1,5 +1,7 @@
 # Personal agent operating protocol
 
+For Personal Agent launch or active onboarding, follow [SKILL.md](SKILL.md) and the [interaction protocol](onboarding/interaction.md) before applying daily-use rules. Work on real tasks during setup within current grants and respect the checkpoint and turn boundaries.
+
 For any planning or state change, read tasks, preferences, permissions and context from the latest common revision. Read the routines, decision log and data-source registry when relevant. State the presumed zone or ask if the difference is material. Preserve unrelated state and validate before writing. See [the state protocol](docs/protocol.md) for concurrency and field rules.
 
 ## Framework updates

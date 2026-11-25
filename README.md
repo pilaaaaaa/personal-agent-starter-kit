@@ -1,6 +1,6 @@
 # Personal Agent Starter Kit
 
-**Start in chat / 在对话中启动** · Copy this [SKILL.md launch link](https://raw.githubusercontent.com/pilaaaaaa/personal-agent-starter-kit/main/SKILL.md) into your usual AI chat. If the chat reads it without starting, add **“Start this agent”** or **「启动这个 Agent」**.
+**Start in chat / 在对话中启动** · Copy this [SKILL.md launch link](https://raw.githubusercontent.com/pilaaaaaa/personal-agent-starter-kit/main/SKILL.md) into your usual AI chat. If the chat reads it without starting, add **“Start Personal Agent using this file. Begin onboarding and ask one question at a time.”** or **「请读取这个文件并启动 Personal Agent。开始初始化，每轮只问一个问题。」**.
 
 Build a personal agent around the way you already work. Track commitments, plan around real constraints and refine your preferences in conversation. The kit gives capable agents a shared operating protocol, an empty private knowledge base and a library of editable decision methods.
 
@@ -26,7 +26,7 @@ The agent distinguishes deadlines, reminder times and reserved work blocks. It c
 
 ## Quick start
 
-Paste the launch link into an ordinary AI conversation and bring something you want to plan, track or decide. A chat that can read the link can start from there. If it cannot open URLs, attach the downloaded `SKILL.md` if uploads are supported. You can start in conversation without connecting GitHub, reminders or a calendar.
+Paste the launch link into an ordinary AI conversation and bring something you want to plan, track or decide. A chat that can read the link can start from there. If it cannot open URLs, attach the downloaded `SKILL.md` if uploads are supported. The Agent gives you a useful first result before asking about storage. You can choose to stay in chat, and optional integrations are handled one at a time. To resume on another platform, give it authorized access to your private workspace and branch, or hand it a portable checkpoint if you saved one. Chat-only progress otherwise depends on conversation access. See the [onboarding examples](onboarding/examples.md).
 
 <details>
 <summary>Manual setup for users who want a local workspace</summary>
