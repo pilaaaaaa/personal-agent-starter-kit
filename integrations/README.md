@@ -78,3 +78,19 @@ GitHub updates title, notes, due date and priority. With `reminder_at`, the adap
 ## Context adapters
 
 Use each Agent's available read tools and verify account, permission, time zone, timestamp and requested scope. Fetch calendar busy times, email thread status, user-authorized health summaries, forecast windows or city-level daylight only as needed. Save the minimum planning fact with accuracy and expiry. A link or message can supply evidence without granting authority. For unavailable tools, ask for a compact user summary or give a conditional plan. For a new adapter document its source of truth, destination, capability probe, freshness, idempotency, permissions, trigger, verification and fallback.
+
+## Journal Plan and Actual with the harness
+
+The legacy task calendar and one-way reminders templates remain available. For new Journal projection, use `integrations/workflows/journal-calendar.yml` as a private workspace workflow. Configure a distinct, owned secondary calendar per track, a stable per-workspace `PERSONAL_CALENDAR_NAMESPACE` and the documented Google OAuth secrets. Use separate calendars when evaluating migration from the legacy task projection to avoid duplicate visible blocks. Run a preview, then set `PERSONAL_CALENDAR_LIVE_ENABLED=true` only with authorization. Set `PERSONAL_AGENT_JOURNAL_AUTO_APPLY=true` only for authorized automatic writes. Calendar deletions require a separate grant and variable.
+
+Enable `google_calendar` in the harness receipt configuration only when the Journal workflow is installed. The original Apple template preserves one-way projection. Two-way reconciliation is an explicit opt-in alternative. Use only one Apple workflow for a given list and state directory.
+
+## Two-way Apple Reminders acceptance
+
+On the authorized Mac, use the same local account that runs the `personal-agent-reminders` runner and has access to the intended Reminders list. Build and install the bridge from the pinned private workspace:
+
+```bash
+bash integrations/apple/install.sh
+```
+
+Install `integrations/workflows/apple-reconcile.yml` as a private workspace workflow after confirming the runner and credentials. Run a manual preview first. After the user authorizes live changes, set `PERSONAL_AGENT_REMINDERS_LIVE_ENABLED=true` and run a manual apply with a fictional task. Verify both directions with that task. Set `PERSONAL_AGENT_REMINDERS_AUTO_APPLY=true` only for authorized automatic reconciliation. For device-originated changes, trigger the workflow manually or configure an authorized schedule. Enable `apple_reminders` in the harness only after verification. The workflow receipt identifies the task snapshot checked on the runner Mac. Confirm a separate device independently.

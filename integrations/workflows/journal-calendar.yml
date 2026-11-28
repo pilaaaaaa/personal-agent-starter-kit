@@ -1,0 +1,55 @@
+name: Project Personal Agent Journal
+on:
+  push:
+    branches: [main]
+    paths: [personal_data/journal.json]
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Apply authorized Journal projection
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: personal-agent-journal-calendar
+  cancel-in-progress: false
+jobs:
+  projection:
+    if: github.ref == 'refs/heads/main' && github.event.repository.private
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/heads/main
+          persist-credentials: false
+      - id: project
+        env:
+          PERSONAL_CALENDAR_PROVIDER: google
+          PERSONAL_CALENDAR_NAMESPACE: ${{ vars.PERSONAL_CALENDAR_NAMESPACE }}
+          PERSONAL_CALENDAR_LIVE_ENABLED: ${{ vars.PERSONAL_CALENDAR_LIVE_ENABLED }}
+          PERSONAL_AGENT_ALLOW_CALENDAR_DELETIONS: ${{ vars.PERSONAL_AGENT_ALLOW_CALENDAR_DELETIONS }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+          GOOGLE_CALENDAR_ID: ${{ secrets.GOOGLE_CALENDAR_ID }}
+          GOOGLE_ACTUAL_CALENDAR_ID: ${{ secrets.GOOGLE_ACTUAL_CALENDAR_ID }}
+          APPLY: ${{ inputs.apply }}
+          AUTO: ${{ vars.PERSONAL_AGENT_JOURNAL_AUTO_APPLY }}
+        run: |
+          set -euo pipefail
+          if [[ "$APPLY" == true || ( "$GITHUB_EVENT_NAME" == push && "$AUTO" == true ) ]]; then
+            python3 -m personal_agent --no-maintenance calendar --apply --verify-projection
+            git rev-parse HEAD > "$RUNNER_TEMP/pa-google-receipt"
+            echo "verified_head=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          else
+            python3 -m personal_agent --no-maintenance calendar
+          fi
+      - if: steps.project.outputs.verified_head != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: pa-google_calendar-${{ steps.project.outputs.verified_head }}
+          path: ${{ runner.temp }}/pa-google-receipt
+          if-no-files-found: error
+          retention-days: 30

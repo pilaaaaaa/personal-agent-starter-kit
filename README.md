@@ -75,3 +75,7 @@ Installed workspaces check [VERSION](VERSION) on first daily use by default. Upg
 - **Live verification pending.** Google Calendar OAuth and live writes, Apple Reminders access and live sync, and GitHub Actions execution still need end-to-end verification with dedicated test accounts and targets. Agent behavior depends on its tools and permissions.
 
 See the [verification guide](docs/verification.md) for the local checks. Copyright (c) 2026 Galatea. See the [MIT License](LICENSE).
+
+## Personal Agent plugin
+
+Start by sharing a real task in chat. After the first result, the Agent guides you through naming, private workspace setup, a dedicated plugin and optional sync. The host handles conversation and planning. The four-tool harness executes structured changes and returns durable receipts. See the [onboarding guide](docs/onboarding.md) and [plugin deployment](docs/harness.md).

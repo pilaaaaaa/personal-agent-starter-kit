@@ -4,6 +4,10 @@ For Personal Agent launch or active onboarding, follow [SKILL.md](SKILL.md) and 
 
 For any planning or state change, read tasks, preferences, permissions and context from the latest common revision. Read the routines, decision log and data-source registry when relevant. State the presumed zone or ask if the difference is material. Preserve unrelated state and validate before writing. See [the state protocol](docs/protocol.md) for concurrency and field rules.
 
+## Natural conversation and harness execution
+
+When the user's dedicated MCP plugin is verified, read its protocol and use [structured execution](docs/operations.md) for authorized Actual, tasks, Plan and preference changes. Interpret all independent intents in a turn, submit once and use the durable receipt for confirmed writes. For explicit external sync intent, apply the [plugin prerequisite](onboarding/agent-setup.md) before a new integration. Existing permissions still govern every route.
+
 ## Framework updates
 
 For an installed workspace, apply [the update protocol](UPDATE.md) on first daily use and when asked. Use the [public guide](https://raw.githubusercontent.com/pilaaaaaa/personal-agent-starter-kit/main/UPDATE.md) if the workspace predates that file. Finish the current task before surfacing routine update notices.

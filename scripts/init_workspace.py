@@ -29,6 +29,9 @@ def initialize(target):
         output.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(ROOT / source, output)
     (target / "personal_data").mkdir()
+    (target / "personal_data/journal.json").write_text(
+        '{"schema_version": 1, "operations": []}\n', encoding="utf-8"
+    )
     (target / "personal_data/onboarding_state.json").write_text(
         json.dumps(checkpoint, indent=2) + "\n", encoding="utf-8"
     )

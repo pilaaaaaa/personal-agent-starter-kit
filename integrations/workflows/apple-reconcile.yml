@@ -1,0 +1,47 @@
+name: Reconcile Personal Agent Apple Reminders
+on:
+  push:
+    branches: [main]
+    paths: [tasks.json]
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Apply authorized two-way reconciliation
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: personal-agent-apple-reminders
+  cancel-in-progress: false
+jobs:
+  project:
+    if: github.ref == 'refs/heads/main' && github.event.repository.private
+    runs-on: [self-hosted, macOS, personal-agent-reminders]
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/heads/main
+      - id: project
+        env:
+          APPLY: ${{ inputs.apply }}
+          AUTO: ${{ vars.PERSONAL_AGENT_REMINDERS_AUTO_APPLY }}
+          PERSONAL_AGENT_REMINDERS_LIVE_ENABLED: ${{ vars.PERSONAL_AGENT_REMINDERS_LIVE_ENABLED }}
+          PERSONAL_AGENT_ALLOW_REMINDER_DELETIONS: ${{ vars.PERSONAL_AGENT_ALLOW_REMINDER_DELETIONS }}
+        run: |
+          set -euo pipefail
+          export VALIDATE_ONLY=true
+          if [[ "$APPLY" == true || ( "$GITHUB_EVENT_NAME" == push && "$AUTO" == true ) ]]; then
+            VALIDATE_ONLY=false
+          fi
+          bash integrations/apple/reconcile.sh
+      - if: steps.project.outputs.verified_head != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: pa-apple_reminders-${{ steps.project.outputs.verified_head }}
+          path: ${{ runner.temp }}/pa-apple-receipt
+          if-no-files-found: error
+          retention-days: 30

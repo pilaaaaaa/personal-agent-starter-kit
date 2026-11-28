@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Personal Agent setup gates",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "naming", "plugin", "personalization", "pending_question"],
+  "properties": {
+    "version": {"const": 1},
+    "naming": {"enum": ["unasked", "confirmed", "declined", "deferred"]},
+    "plugin": {"enum": ["unasked", "selected", "failed", "unavailable", "declined", "deferred", "ready"]},
+    "personalization": {"enum": ["unasked", "selected", "manual_pending", "verified", "declined", "deferred"]},
+    "pending_question": {"enum": [null, "agent_name", "plugin_offer", "plugin_grant", "plugin_retry", "personalization_offer", "personalization_grant"]}
+  }
+}

@@ -60,3 +60,7 @@ Continue the user's task with the installed workspace as available. Offer a path
 ## Publishing a release
 
 Use stable Semantic Versioning. Increment PATCH for compatible fixes, MINOR for compatible features, and MAJOR for breaking stable interfaces. During initial 0.x development, describe any breaking change explicitly and increment at least MINOR. In each formal release, update `VERSION` and [CHANGELOG.md](CHANGELOG.md) together, review [FRAMEWORK.txt](FRAMEWORK.txt), verify the workspace, and publish `main` with the matching `v<version>` tag on the same release commit. Keep published version tags immutable. The Raw `main/VERSION` is the lightweight query endpoint. Version-tagged files are the upgrade source.
+
+## Upgrade to 0.5
+
+Install the allowlisted framework files while preserving the v1 checkpoint, private setup sidecars, task ledger, Journal, custom methods and agent configuration. The new [setup gates](onboarding/agent-setup.md) apply at the next eligible turn. The initializer creates an empty Journal for new workspaces. An existing workspace can use the harness with an absent Journal until its first authorized Journal operation. Deploy the service and provider templates separately under their scoped grants.

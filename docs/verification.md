@@ -61,3 +61,11 @@ Offline fixtures use authored user messages, interpreted guard events and expect
 
 
 For the voluntary Star path, observe the optional link before the welcome question. Try a single turn reaching two milestones, explicit decline while a setup question is pending, and a fresh Agent resuming the same private branch. Verify that no Star action or lookup is attempted, no reply is required, and the pending setup question and stage survive. The installed Python evaluator test exercises deduplication, milestone priority and both terminal replies with synthetic state. Host phrasing and conditional persistence belong to the manual matrix.
+
+## Four-tool service and setup gates
+
+Use Python 3.12 or later. Install test and MCP dependencies in an isolated environment, then run `PYTHONPATH=. python tests/smoke_harness_mcp.py`. This exercises actual loopback HTTP and Git against a temporary bare repository. It covers tool discovery and all four tools, authentication, multi-intent publication, rename continuity, restart recovery and concurrent submissions.
+
+Run the second Swift rules harness with `swiftc -parse-as-library -D SYNC_TEST integrations/apple/reconcile-reminders.swift tests/ReconcileRules.swift -o "$pa_build/reconcile"`, then run the executable. This tests the bridge's local rules. An authorized runner and separate device are needed to establish EventKit and device propagation.
+
+For a real host, test a fresh launch, first value, naming, plugin offer before provider setup, unavailable or declined plugin fallback, and a fresh conversation after Personalization. For an old workspace, confirm preservation of the pending question, plugin prompting on explicit sync intent, and continuity after a display-name change. Use fictional disposable data for write acceptance and check Git, provider and device evidence separately.

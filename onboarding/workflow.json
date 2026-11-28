@@ -67,7 +67,7 @@
     "S5": {
       "entry": "S4 resolved or verified legacy workspace adopted.",
       "goal": "Normal use and progressive learning.",
-      "required": "For new users, S0\u2013S2 completed and S3\u2013S4 each resolved.",
+      "required": "For new users, S0–S2 completed and S3–S4 each resolved.",
       "allowed": "Normal work under the operating protocol and user-led reopening of S3 or S4.",
       "wait": "No onboarding questions unless the user reopens optional setup.",
       "fallback": "Continue authorized chat work.",
@@ -131,5 +131,42 @@
       "starred",
       "declined"
     ]
+  },
+  "prerequisites": {
+    "naming": {
+      "entry": [
+        "S3"
+      ],
+      "trigger": "first value delivered in a previous turn",
+      "resolved": [
+        "confirmed",
+        "declined",
+        "deferred"
+      ]
+    },
+    "plugin": {
+      "entry": [
+        "S4",
+        "S5"
+      ],
+      "trigger": "after storage choice or explicit external sync intent in any state",
+      "resolved": [
+        "ready",
+        "declined",
+        "deferred"
+      ]
+    },
+    "personalization": {
+      "entry": [
+        "S4"
+      ],
+      "trigger": "after integration scope and plugin choice are resolved",
+      "resolved": [
+        "verified",
+        "manual_pending",
+        "declined",
+        "deferred"
+      ]
+    }
   }
 }

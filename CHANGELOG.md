@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.0
+
+- Add a deterministic four-tool Personal Agent MCP harness and private Git execution with durable receipts.
+- Guide users through naming, dedicated plugin setup and host Personalization after first value. Preserve v1 checkpoints.
+- Add independent Journal Plan and Actual workflows, multi-intent batches, task lifecycle, and per-target synchronization verification.
+- Keep experimental administration allocation opt-in and retain the existing chat and integration routes.
+
 ## 0.4.0
 
 - Added optional Star invitations at onboarding milestones and suppress repeated invitations after explicit feedback. Eligible Agents can use a read-only evaluator.

@@ -29,3 +29,9 @@ After the first reply, S1 awaits a goal. The explicit decline suppresses later S
 **Wrong:** “Calendar isn't available, so I marked it as declined.” A missing tool is a capability result. Wait for the user's choice or an authorized successful retry.
 
 **Resume:** If a different task interrupts the storage question, answer the task and retain S3. When the user asks to resume, ask only the pending storage question. On a new Agent, open the authorized private branch or accept an explicitly handed-off checkpoint.
+
+## Naming, plugin and Personalization
+
+A user launches with a request to organize a fictional gallery opening. The Agent returns an actionable plan and ends its turn. On the next relevant turn it asks what to call the Agent. The user chooses Fieldnote. The Agent records that choice and asks where to keep the private workspace.
+
+After the user chooses and verifies storage, the Agent checks whether the host can create a private Fieldnote plugin and connect to a user-owned execution service. It offers the next setup step and waits for authorization. A failed read-only call records a failure. The user can retry or choose chat or an authorized connector while setup remains deferred. An explicit later request to sync gallery tasks checks the plugin prerequisite again. After read-only acceptance the Agent offers an isolated write and reads the real receipt for the authorized scope. It then guides the user in configuring the host's long-term instructions.

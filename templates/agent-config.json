@@ -1,6 +1,7 @@
 {
   "upstream_repository": "https://github.com/pilaaaaaa/personal-agent-starter-kit",
   "installed_version": null,
+  "agent_display_name": null,
   "updates": {
     "check_policy": "daily",
     "last_checked_at": null,

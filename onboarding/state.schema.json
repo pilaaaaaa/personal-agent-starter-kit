@@ -167,7 +167,7 @@
     "last_updated_at": {
       "type": "string",
       "format": "date-time",
-      "pattern": "Z$"
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$"
     }
   },
   "$schema": "https://json-schema.org/draft/2020-12/schema",

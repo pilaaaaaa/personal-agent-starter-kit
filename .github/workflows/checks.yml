@@ -1,0 +1,24 @@
+name: Starter Kit checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r tests/requirements.txt -r plugins/personal_agent/requirements.txt
+      - run: python -m unittest discover -s tests
+      - run: PYTHONPATH=. python tests/smoke_harness_mcp.py
+  swift:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          swiftc -parse-as-library -D SYNC_TEST sync-reminders.swift tests/SyncRules.swift -o "$RUNNER_TEMP/legacy-rules"
+          "$RUNNER_TEMP/legacy-rules"
+          swiftc -parse-as-library -D SYNC_TEST integrations/apple/reconcile-reminders.swift tests/ReconcileRules.swift -o "$RUNNER_TEMP/reconcile-rules"
+          "$RUNNER_TEMP/reconcile-rules"
